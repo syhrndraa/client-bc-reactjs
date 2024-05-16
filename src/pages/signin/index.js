@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Container, Card } from 'react-bootstrap';
-import axios from 'axios';
 import SAlert from '../../components/Alert';
-import { useNavigate, Navigate } from 'react-router-dom';
-import { config } from '../../configs';
+import { useNavigate } from 'react-router-dom';
 import SForm from './form';
+import { postData } from '../../utils/fetch';
+import { useDispatch } from 'react-redux';
+import { userLogin } from '../../redux/auth/actions';
 
 function SigninPage() {
-  const token = localStorage.getItem('token');
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: '',
@@ -27,15 +27,9 @@ function SigninPage() {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      const res = await axios.post(
-        `${config.api_host_dev}/cms/auth/signin`,
-        //bisa pake : form jika yang dikirim semua
-        {
-          email: form.email,
-          password: form.password,
-        }
-      );
-      localStorage.setItem('token', res.data.data.token);
+      const res = await postData(`/cms/auth/signin`, form);
+      dispatch(userLogin(res.data.data.token, res.data.data.role));
+      // localStorage.setItem('token', res.data.data.token);
       setIsLoading(false);
       navigate('/');
     } catch (error) {
@@ -49,7 +43,7 @@ function SigninPage() {
       });
     }
   };
-  if (token) return <Navigate to="/" replace={true} />;
+
   return (
     <Container md={12} className="my-5">
       <div className="m-auto" style={{ width: '50%' }}>
