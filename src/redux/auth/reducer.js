@@ -5,7 +5,8 @@ let initialState = localStorage.getItem('auth')
   : {
       token: null,
       role: null,
-      // refreshToken: null
+      refreshToken: null,
+      email: null,
     };
 
 export default function reducer(state = initialState, action) {
@@ -14,11 +15,12 @@ export default function reducer(state = initialState, action) {
       return {
         token: action.token,
         role: action.role,
-        // refreshToken: action.refreshToken,
+        refreshToken: action.refreshToken,
+        email: action.email,
       };
 
     case USER_LOGOUT:
-      return { token: null, role: null, refreshToken: null };
+      return { token: null, role: null, refreshToken: null, email: null };
 
     default:
       return state;

@@ -2,6 +2,10 @@ import axios from 'axios';
 import { config } from '../configs';
 
 const handleError = (error) => {
+  // const defaultError = {
+  //   message : error.response.data.msg,
+  //   code : error.code
+  // }
   const originalRequest = error.config;
   if (error.response.data.msg === 'jwt expired') {
     originalRequest._retry = true;
@@ -10,7 +14,9 @@ const handleError = (error) => {
       : {};
 
     return axios
-      .get(`${config.api_host_dev}/cms/refresh-token/${session.refreshToken}`)
+      .get(
+        `${config.api_host_dev}/cms/refresh-token/${session.refreshToken}/${session.email}`
+      )
       .then((res) => {
         console.log('res');
         console.log(res);
@@ -29,7 +35,7 @@ const handleError = (error) => {
         return axios(originalRequest);
       })
       .catch((err) => {
-        window.location.href = '/login';
+        window.location.href = '/signin';
         localStorage.removeItem('auth');
       });
   }
