@@ -19,12 +19,13 @@ export const accessEvents = {
   hapus: ['organizer'],
 };
 
-export const accessParticipant = {
-  lihat: ['organizer'],
-  tambah: ['organizer'],
-  edit: ['organizer'],
-  hapus: ['organizer'],
-};
+// export const accessParticipant = {
+//   lihat: ['organizer'],
+//   tambah: ['organizer'],
+//   edit: ['organizer'],
+//   hapus: ['organizer'],
+// };
+
 export const accessPayments = {
   lihat: ['organizer'],
   tambah: ['organizer'],

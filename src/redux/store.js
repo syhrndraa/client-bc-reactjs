@@ -14,6 +14,7 @@ import paymentsReducer from './payments/reducer';
 import eventsReducer from './events/reducer';
 import listsReducer from './lists/reducer';
 import ordersReducer from './orders/reducer';
+import adminsReducer from './admins/reducer';
 
 const composerEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -26,6 +27,7 @@ const rootReducers = combineReducers({
   events: eventsReducer,
   lists: listsReducer,
   orders: ordersReducer,
+  admins: adminsReducer,
 });
 const store = createStore(
   rootReducers,
