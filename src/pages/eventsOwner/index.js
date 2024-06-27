@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import BreadCrumb from '../../components/BreadCrumb';
 import Button from '../../components/Button';
 import Table from '../../components/TableWithAction';
 import SearchInput from '../../components/SearchInput';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  fetchEvents,
-  setKeyword,
-  setCategory,
-  setTalent,
-} from '../../redux/events/actions';
+  fetchEventsOwner,
+  setKeywordOwner,
+  setCategoryOwner,
+  setTalentOwner,
+} from '../../redux/eventsByOwner/actions';
 import SAlert from '../../components/Alert';
 import Swal from 'sweetalert2';
-import { deleteData } from '../../utils/fetch';
+import { putData } from '../../utils/fetch';
 import { setNotif } from '../../redux/notif/actions';
 import SelectBox from '../../components/SelectBox';
 import {
@@ -23,15 +23,15 @@ import {
 } from '../../redux/lists/actions';
 
 function EventPage() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const notif = useSelector((state) => state.notif);
-  const events = useSelector((state) => state.events);
+  const events = useSelector((state) => state.eventsByOwner);
   const lists = useSelector((state) => state.lists);
 
   useEffect(() => {
-    dispatch(fetchEvents());
+    dispatch(fetchEventsOwner());
   }, [dispatch, events.keyword, events.category, events.talent]);
 
   useEffect(() => {
@@ -39,67 +39,46 @@ function EventPage() {
     dispatch(fetchListCategories());
   }, [dispatch]);
 
-  const handleDelete = (id) => {
+  const handleChangeStatus = (id, status) => {
     Swal.fire({
       title: 'Apa kamu yakin?',
-      text: 'Anda tidak akan dapat mengembalikan ini!',
+      text: '',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Iya, Hapus',
+      confirmButtonText: 'Iya, Ubah Status',
       cancelButtonText: 'Batal',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await deleteData(`/cms/events/${id}`);
+        const payload = {
+          statusEvent: status === 'Published' ? 'Draft' : 'Published',
+        };
+        const res = await putData(`/cms/events/${id}/status`, payload);
 
         dispatch(
           setNotif(
             true,
             'success',
-            `berhasil hapus speaker ${res.data.data.title}`
+            `berhasil ubah status event ${res.data.data.title}`
           )
         );
 
-        dispatch(fetchEvents());
+        dispatch(fetchEventsOwner());
       }
     });
   };
 
-  // const handleChangeStatus = (id, status) => {
-  //   Swal.fire({
-  //     title: 'Apa kamu yakin?',
-  //     text: '',
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: 'Iya, Ubah Status',
-  //     cancelButtonText: 'Batal',
-  //   }).then(async (result) => {
-  //     if (result.isConfirmed) {
-  //       const payload = {
-  //         statusEvent: status === 'Published' ? 'Draft' : 'Published',
-  //       };
-  //       const res = await putData(`/cms/events/${id}/status`, payload);
-
-  //       dispatch(setNotif(true, 'success', `berhasil ubah status event`));
-
-  //       dispatch(fetchEvents());
-  //     }
-  //   });
-  // };
-
   return (
     <Container className="mt-3">
+      {/* <Button action={() => navigate('/events/create')}>Tambah</Button> */}
       <BreadCrumb textSecond={'Events'} />
-      <Button action={() => navigate('/events/create')}>Tambah</Button>
       <Row>
         <Col>
           <SearchInput
             name="keyword"
             query={events.keyword}
-            handleChange={(e) => dispatch(setKeyword(e.target.value))}
+            handleChange={(e) => dispatch(setKeywordOwner(e.target.value))}
           />
         </Col>
         <Col>
@@ -109,7 +88,7 @@ function EventPage() {
             value={events.category}
             options={lists.categories}
             isClearable={true}
-            handleChange={(e) => dispatch(setCategory(e))}
+            handleChange={(e) => dispatch(setCategoryOwner(e))}
           />
         </Col>
         <Col>
@@ -119,7 +98,7 @@ function EventPage() {
             value={events.talent}
             options={lists.talents}
             isClearable={true}
-            handleChange={(e) => dispatch(setTalent(e))}
+            handleChange={(e) => dispatch(setTalentOwner(e))}
           />
         </Col>
       </Row>
@@ -147,20 +126,20 @@ function EventPage() {
           'categoryName',
           'talentName',
         ]}
-        editUrl={`/events/edit`}
-        deleteAction={(id) => handleDelete(id)}
-        // customAction={(id, status = '') => {
-        //   return (
-        //     <Button
-        //       className={'mx-2'}
-        //       variant="primary"
-        //       size={'sm'}
-        //       action={() => handleChangeStatus(id, status)}
-        //     >
-        //       Change Status
-        //     </Button>
-        //   );
-        // }}
+        // editUrl={`/events/edit`}
+        // deleteAction={(id) => handleDelete(id)}
+        customAction={(id, status = '') => {
+          return (
+            <Button
+              className={'mx-2'}
+              variant="primary"
+              size={'sm'}
+              action={() => handleChangeStatus(id, status)}
+            >
+              Change Status
+            </Button>
+          );
+        }}
         withoutPagination
       />
     </Container>

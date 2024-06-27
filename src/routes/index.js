@@ -9,6 +9,7 @@ import { CategoriesRoute } from './CategoriesRoute';
 import { PaymentsRoute } from './PaymentsRoute';
 import SNavbar from '../components/Navbar';
 import { EventsRoute } from './EventsRoute';
+import { EventsOwnerRoute } from './EventsOwnerRoute';
 import { OrdersRoute } from './OrdersRoute';
 import { AdminsRoute } from './AdminsRoute';
 import { OrganizersRoute } from './OrganizersRoute';
@@ -38,6 +39,7 @@ export function AppRoutes() {
         <Route path="talents/*" element={<TalentsRoute />} />
         <Route path="payments/*" element={<PaymentsRoute />} />
         <Route path="events/*" element={<EventsRoute />} />
+        <Route path="eventsOwner/*" element={<EventsOwnerRoute />} />
         <Route path="orders/*" element={<OrdersRoute />} />
         <Route path="admins/*" element={<AdminsRoute />} />
         <Route path="organizers/*" element={<OrganizersRoute />} />

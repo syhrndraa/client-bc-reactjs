@@ -76,7 +76,11 @@ export default function SNavbar() {
           <NavAccess
             role={role}
             roles={accessEvents.lihat}
-            action={() => navigate('/events')}
+            action={() =>
+              role === 'organizer'
+                ? navigate('/events')
+                : navigate('/eventsOwner')
+            }
           >
             Events
           </NavAccess>

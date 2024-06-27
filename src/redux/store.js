@@ -12,6 +12,7 @@ import notifReducer from './notif/reducer';
 import talentsReducer from './talents/reducer';
 import paymentsReducer from './payments/reducer';
 import eventsReducer from './events/reducer';
+import eventsReducerByOwner from './eventsByOwner/reducer';
 import listsReducer from './lists/reducer';
 import ordersReducer from './orders/reducer';
 import adminsReducer from './admins/reducer';
@@ -26,6 +27,7 @@ const rootReducers = combineReducers({
   talents: talentsReducer,
   payments: paymentsReducer,
   events: eventsReducer,
+  eventsByOwner: eventsReducerByOwner,
   lists: listsReducer,
   orders: ordersReducer,
   admins: adminsReducer,

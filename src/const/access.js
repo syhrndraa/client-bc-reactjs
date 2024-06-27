@@ -13,10 +13,10 @@ export const accessTalents = {
 };
 
 export const accessEvents = {
-  lihat: ['organizer'],
+  lihat: ['organizer', 'owner'],
   tambah: ['organizer'],
-  edit: ['organizer'],
-  hapus: ['organizer'],
+  edit: ['organizer', 'owner'],
+  hapus: ['organizer', 'owner'],
 };
 
 // export const accessParticipant = {
