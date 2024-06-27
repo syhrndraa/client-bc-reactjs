@@ -7,7 +7,7 @@ import Button from '../../components/Button';
 import TextInputWithLabel from '../../components/TextInputWithLabel';
 // import { config } from '../../configs';
 
-export default function AdminsForm({
+export default function OrganizersForm({
   handleSubmit,
   form,
   handleChange,
@@ -17,7 +17,7 @@ export default function AdminsForm({
   return (
     <Form>
       <TextInputWithLabel
-        placeholder={'Masukan nama admin'}
+        placeholder={'Masukan nama organizer'}
         label={'Nama'}
         name="name"
         value={form.name}
@@ -25,7 +25,7 @@ export default function AdminsForm({
         onChange={handleChange}
       />
       <TextInputWithLabel
-        placeholder={'Masukan email admin'}
+        placeholder={'Masukan email organizer'}
         label={'Email'}
         name="email"
         value={form.email}

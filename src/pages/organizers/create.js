@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import SBreadCrumb from '../../components/BreadCrumb';
 import SAlert from '../../components/Alert';
 import Form from './form';
-import { getData, putData } from '../../utils/fetch';
-import { useNavigate, useParams } from 'react-router-dom';
+import { postData } from '../../utils/fetch';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setNotif } from '../../redux/notif/actions';
 
-function AdminsEdit() {
-  const { adminId } = useParams();
-  console.log('adminId');
-  console.log(adminId);
+function OrganizersCreate() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [form, setForm] = useState({
@@ -30,24 +27,6 @@ function AdminsEdit() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchOneAdmins = async () => {
-    const res = await getData(`/cms/users/${adminId}`);
-    console.log('res');
-    console.log(res);
-
-    setForm({
-      ...form,
-      name: res.data.data.name,
-      email: res.data.data.email,
-      role: res.data.data.role,
-    });
-  };
-
-  useEffect(() => {
-    fetchOneAdmins();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleChange = async (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -59,14 +38,20 @@ function AdminsEdit() {
       name: form.name,
       email: form.email,
       role: form.role,
+      password: form.password,
+      confirmPassword: form.confirmPassword,
     };
 
-    const res = await putData(`/cms/users/${adminId}`, payload);
+    const res = await postData('/cms/users', payload);
     if (res?.data?.data) {
       dispatch(
-        setNotif(true, 'success', `berhasil update admin ${res.data.data.name}`)
+        setNotif(
+          true,
+          'success',
+          `berhasil tambah organizer ${res.data.data.name}`
+        )
       );
-      navigate('/admins');
+      navigate('/organizers');
       setIsLoading(false);
     } else {
       setIsLoading(false);
@@ -82,9 +67,9 @@ function AdminsEdit() {
   return (
     <Container>
       <SBreadCrumb
-        textSecond={'Admins'}
-        urlSecond={'/admins'}
-        textThird="Edit"
+        textSecond={'Organizers'}
+        urlSecond={'/organizers'}
+        textThird="Create"
       />
       {alert.status && <SAlert type={alert.type} message={alert.message} />}
       <Form
@@ -97,4 +82,4 @@ function AdminsEdit() {
   );
 }
 
-export default AdminsEdit;
+export default OrganizersCreate;

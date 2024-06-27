@@ -8,10 +8,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setNotif } from '../../redux/notif/actions';
 
-function AdminsEdit() {
-  const { adminId } = useParams();
-  console.log('adminId');
-  console.log(adminId);
+function OrganizersEdit() {
+  const { organizerId } = useParams();
+  console.log('organizerId');
+  console.log(organizerId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [form, setForm] = useState({
@@ -30,8 +30,8 @@ function AdminsEdit() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchOneAdmins = async () => {
-    const res = await getData(`/cms/users/${adminId}`);
+  const fetchOneOrganizers = async () => {
+    const res = await getData(`/cms/users/${organizerId}`);
     console.log('res');
     console.log(res);
 
@@ -44,7 +44,7 @@ function AdminsEdit() {
   };
 
   useEffect(() => {
-    fetchOneAdmins();
+    fetchOneOrganizers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -61,12 +61,16 @@ function AdminsEdit() {
       role: form.role,
     };
 
-    const res = await putData(`/cms/users/${adminId}`, payload);
+    const res = await putData(`/cms/users/${organizerId}`, payload);
     if (res?.data?.data) {
       dispatch(
-        setNotif(true, 'success', `berhasil update admin ${res.data.data.name}`)
+        setNotif(
+          true,
+          'success',
+          `berhasil update organizer ${res.data.data.name}`
+        )
       );
-      navigate('/admins');
+      navigate('/organizers');
       setIsLoading(false);
     } else {
       setIsLoading(false);
@@ -82,8 +86,8 @@ function AdminsEdit() {
   return (
     <Container>
       <SBreadCrumb
-        textSecond={'Admins'}
-        urlSecond={'/admins'}
+        textSecond={'Organizers'}
+        urlSecond={'/organizers'}
         textThird="Edit"
       />
       {alert.status && <SAlert type={alert.type} message={alert.message} />}
@@ -97,4 +101,4 @@ function AdminsEdit() {
   );
 }
 
-export default AdminsEdit;
+export default OrganizersEdit;

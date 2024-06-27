@@ -11,19 +11,19 @@ import AlertMessage from '../../components/Alert';
 import Swal from 'sweetalert2';
 import { deleteData } from '../../utils/fetch';
 import { setNotif } from '../../redux/notif/actions';
-import { fetchAdmins, setKeyword } from '../../redux/admins/actions';
-import { accessAdmins } from '../../const/access';
+import { fetchOrganizers, setKeyword } from '../../redux/organizers/actions';
+import { accessOrganizers } from '../../const/access';
 
-function AdminsPage() {
+function OrganizersPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   //   const state = useSelector((state) => state);
   //   console.log(state);
   //   console.log(`state`);
   const notif = useSelector((state) => state.notif); //didapatkan dari store (state global)
-  const admins = useSelector((state) => state.admins);
-  console.log('admins');
-  console.log(admins.data);
+  const organizers = useSelector((state) => state.organizers);
+  console.log('organizers');
+  console.log(organizers.data);
 
   const [access, setAccess] = useState({
     tambah: false,
@@ -36,8 +36,8 @@ function AdminsPage() {
       ? JSON.parse(localStorage.getItem('auth'))
       : {};
     const access = { tambah: false, hapus: false, edit: false };
-    Object.keys(accessAdmins).forEach(function (key, index) {
-      if (accessAdmins[key].indexOf(role) >= 0) {
+    Object.keys(accessOrganizers).forEach(function (key, index) {
+      if (accessOrganizers[key].indexOf(role) >= 0) {
         access[key] = true;
       }
     });
@@ -49,12 +49,12 @@ function AdminsPage() {
   }, []);
 
   //   useEffect(() => {
-  //     dispatch(fetchAdmins());
+  //     dispatch(fetchOrganizers());
   //   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchAdmins());
-  }, [dispatch, admins.keyword]);
+    dispatch(fetchOrganizers());
+  }, [dispatch, organizers.keyword]);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -74,25 +74,25 @@ function AdminsPage() {
           setNotif(
             true,
             'success',
-            `berhasil hapus admin ${res.data.data.name}`
+            `berhasil hapus organizer ${res.data.data.name}`
           )
         );
 
-        dispatch(fetchAdmins());
+        dispatch(fetchOrganizers());
       }
     });
   };
 
   return (
     <Container className="mt-3">
-      <BreadCrumb textSecond={'Admins'} />
+      <BreadCrumb textSecond={'Organizers'} />
       {access.tambah && (
         <div className="mb-3">
-          <Button action={() => navigate('/admins/create')}>Tambah</Button>
+          <Button action={() => navigate('/organizers/create')}>Tambah</Button>
         </div>
       )}
       <SearchInput
-        query={admins.keyword}
+        query={organizers.keyword}
         handleChange={(e) => dispatch(setKeyword(e.target.value))}
       />
       {notif.status && (
@@ -100,16 +100,16 @@ function AdminsPage() {
       )}
 
       <Table
-        status={admins.status}
+        status={organizers.status}
         thead={['Nama', 'Email', 'Role', 'Aksi']}
-        data={admins.data}
+        data={organizers.data}
         // data={admins.data.map((data, index) => {
         //   if (data.role === 'admin') {
         //     return data;
         //   }
         // })}
         tbody={['name', 'email', 'role']}
-        editUrl={access.edit ? `/admins/edit` : null}
+        editUrl={access.edit ? `/organizers/edit` : null}
         deleteAction={access.hapus ? (id) => handleDelete(id) : null}
         withoutPagination
       />
@@ -117,4 +117,4 @@ function AdminsPage() {
   );
 }
 
-export default AdminsPage;
+export default OrganizersPage;

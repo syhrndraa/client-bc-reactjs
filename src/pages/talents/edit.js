@@ -27,7 +27,7 @@ function TalentsEdit() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchOneCategories = async () => {
+  const fetchOneTalents = async () => {
     const res = await getData(`/cms/talents/${talentId}`);
 
     setForm({
@@ -40,7 +40,7 @@ function TalentsEdit() {
   };
 
   useEffect(() => {
-    fetchOneCategories();
+    fetchOneTalents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
