@@ -42,7 +42,7 @@ function AdminsCreate() {
       confirmPassword: form.confirmPassword,
     };
 
-    const res = await postData('/cms/users', payload);
+    const res = await postData('/cms/admins', payload);
     if (res?.data?.data) {
       dispatch(
         setNotif(true, 'success', `berhasil tambah admin ${res.data.data.name}`)
