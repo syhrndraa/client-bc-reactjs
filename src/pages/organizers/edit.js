@@ -57,6 +57,7 @@ function OrganizersEdit() {
 
     const payload = {
       name: form.name,
+      organizer: form.name,
       email: form.email,
       role: form.role,
     };

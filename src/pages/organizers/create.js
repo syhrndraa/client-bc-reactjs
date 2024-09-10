@@ -36,13 +36,14 @@ function OrganizersCreate() {
 
     const payload = {
       name: form.name,
+      organizer: form.name,
       email: form.email,
       role: form.role,
       password: form.password,
       confirmPassword: form.confirmPassword,
     };
 
-    const res = await postData('/cms/users', payload);
+    const res = await postData('/cms/organizers', payload);
     if (res?.data?.data) {
       dispatch(
         setNotif(

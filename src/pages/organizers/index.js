@@ -83,6 +83,7 @@ function OrganizersPage() {
     });
   };
 
+
   return (
     <Container className="mt-3">
       <BreadCrumb textSecond={'Organizers'} />

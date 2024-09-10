@@ -4,7 +4,7 @@ import { config } from '../configs';
 const handleError = (error) => {
   // const defaultError = {
   //   message : error.response.data.msg,
-  //   code : error.code
+  //   code : error.response.data.status
   // }
   const originalRequest = error.config;
   if (error.response.data.msg === 'jwt expired') {
